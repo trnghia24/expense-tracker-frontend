@@ -7,6 +7,7 @@ import {
 	calculateExpense,
 	calculateIncome,
 	IExpense,
+	saveExpense,
 } from "../../stores/features/expenseSlice";
 import TransactionDatePicker from "./TransactionDatePicker";
 
@@ -14,7 +15,7 @@ const TransactionForm: React.FC = () => {
 	const dispatch = useAppDispatch();
 
 	const [expense, setExpense] = useState<IExpense>({
-		date: new Date(),
+		date: new Date().toDateString(),
 		expenseName: "",
 		amount: 0,
 	});
@@ -31,7 +32,13 @@ const TransactionForm: React.FC = () => {
 		) {
 			return;
 		}
-		dispatch(addExpenseHistory(expense));
+		const expenseForDispatch = {
+			...expense,
+			date: Date.parse(expense.date),
+		};
+		console.log(expenseForDispatch);
+		dispatch(saveExpense(expenseForDispatch));
+		// dispatch(addExpenseHistory(expense));
 		dispatch(calculateBalance());
 		dispatch(calculateIncome());
 		dispatch(calculateExpense());

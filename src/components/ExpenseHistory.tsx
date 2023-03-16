@@ -1,6 +1,7 @@
 import React from "react";
 import { ListGroup, Stack } from "react-bootstrap";
 import { useAppSelector } from "../hooks/hooks";
+import { IExpense } from "../stores/features/expenseSlice";
 
 const ExpenseHistory = () => {
 	const expenses = useAppSelector((state) => state.expense.expenseHistory);
@@ -13,7 +14,7 @@ const ExpenseHistory = () => {
 					{expenses.map((ex, i) => (
 						<ListGroup.Item key={i}>
 							<div className="d-flex">
-								<span>{ex.date.toDateString()}</span>
+								<span>{ex.date}</span>
 								<span className="ms-auto">{ex.expenseName}</span>
 								<span
 									className={

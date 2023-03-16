@@ -15,7 +15,7 @@ const TransactionDatePicker: React.FC<Props> = ({ onChange }) => {
 			selected={pickedDate}
 			onChange={(date: Date) => {
 				setPickedDate(date);
-				onChange("date", date);
+				onChange("date", date.toDateString());
 			}}
 			name="date"
 		/>

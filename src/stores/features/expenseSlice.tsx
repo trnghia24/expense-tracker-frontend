@@ -1,18 +1,30 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+	ActionCreatorWithPayload,
+	createAsyncThunk,
+	createSlice,
+	PayloadAction,
+} from "@reduxjs/toolkit";
+import { useAppDispatch } from "../../hooks/hooks";
 
 interface ExpenseState {
 	balance: number;
 	income: number;
 	expense: number;
 	expenseHistory: {
-		date: Date;
+		date: string;
 		expenseName: string;
 		amount: number;
 	}[];
 }
 
 export interface IExpense {
-	date: Date;
+	date: string;
+	expenseName: string;
+	amount: string | number;
+}
+
+export interface IExpenseDispatch {
+	date: number;
 	expenseName: string;
 	amount: string | number;
 }
@@ -23,6 +35,44 @@ const initialState: ExpenseState = {
 	expense: 0,
 	expenseHistory: [],
 };
+
+export const fetchExpenses = createAsyncThunk(
+	"expense/fetchExpenses",
+	async (data, thunkAPI) => {
+		try {
+			const response = await fetch("http://localhost:8080/expense/fetchAll", {
+				method: "GET",
+			});
+
+			const data = response.json();
+			return data;
+		} catch (error: any) {
+			thunkAPI.rejectWithValue(error.message);
+		}
+	}
+);
+
+export const saveExpense = createAsyncThunk(
+	"expense/saveExpense",
+	async (expense: IExpenseDispatch, thunkAPI) => {
+		try {
+			const response = await fetch("http://localhost:8080/expense/add", {
+				method: "POST",
+
+				headers: {
+					"Content-Type": "application/json",
+				},
+
+				body: JSON.stringify({ ...expense }),
+			});
+
+			const data = response.json();
+			return data;
+		} catch (error: any) {
+			thunkAPI.rejectWithValue(error.message);
+		}
+	}
+);
 
 const expenseSlice = createSlice({
 	name: "expense",
@@ -57,6 +107,15 @@ const expenseSlice = createSlice({
 					: accumulator;
 			}, 0);
 		},
+	},
+	extraReducers: (builder) => {
+		builder.addCase(fetchExpenses.fulfilled, (state, action) => {
+			state.expenseHistory = action.payload;
+		});
+
+		builder.addCase(saveExpense.fulfilled, (state, action) => {
+			state.expenseHistory.push(action.payload); // do nothing because we will fetch expenses again???
+		});
 	},
 });
 
