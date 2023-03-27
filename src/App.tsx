@@ -5,7 +5,12 @@ import ExpenseHistory from "./components/ExpenseHistory";
 import IncomeAndExpenseDisplay from "./components/IncomeAndExpenseDisplay";
 import TransactionForm from "./components/TransactionForm/TransactionForm";
 import { useAppDispatch } from "./hooks/hooks";
-import { fetchExpenses } from "./stores/features/expenseSlice";
+import {
+	calculateBalance,
+	calculateExpense,
+	calculateIncome,
+	fetchExpenses,
+} from "./stores/features/expenseSlice";
 
 function App() {
 	const dispatch = useAppDispatch();
@@ -15,7 +20,7 @@ function App() {
 	}, [dispatch]);
 
 	return (
-		<Container className={styles.container} style={{ maxWidth: "500px" }}>
+		<Container className={styles.container} style={{ maxWidth: "1000px" }}>
 			<Balance />
 			<IncomeAndExpenseDisplay />
 			<ExpenseHistory />

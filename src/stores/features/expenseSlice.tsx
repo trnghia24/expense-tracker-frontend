@@ -4,24 +4,24 @@ import {
 	createSlice,
 	PayloadAction,
 } from "@reduxjs/toolkit";
+import { WritableDraft } from "immer/dist/internal";
 import { useAppDispatch } from "../../hooks/hooks";
+import { RootState } from "../store";
 
 interface ExpenseState {
 	balance: number;
 	income: number;
 	expense: number;
-	expenseHistory: {
-		date: string;
-		expenseName: string;
-		amount: number;
-	}[];
+	expenseHistory: IExpenseHistory[];
 }
 
 export interface IExpense {
 	date: string;
 	expenseName: string;
-	amount: string | number;
+	amount: number;
 }
+
+export type IExpenseHistory = { id: string } & IExpense;
 
 export interface IExpenseDispatch {
 	date: number;
@@ -74,20 +74,35 @@ export const saveExpense = createAsyncThunk(
 	}
 );
 
+export const deleteExpenseById = createAsyncThunk(
+	"expense/deleteExpenseById",
+	async (id: string, thunkAPI) => {
+		try {
+			const response = await fetch(`http://localhost:8080/expense/${id}`, {
+				method: "DELETE",
+
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+		} catch (error: any) {
+			thunkAPI.rejectWithValue(error.message);
+		}
+	}
+);
+
+export const recalculateInfo = (state: WritableDraft<ExpenseState>): void => {
+	expenseSlice.caseReducers.calculateBalance(state);
+	expenseSlice.caseReducers.calculateExpense(state);
+	expenseSlice.caseReducers.calculateIncome(state);
+};
+
 const expenseSlice = createSlice({
 	name: "expense",
 	initialState,
 	reducers: {
-		addExpenseHistory: (state, action: PayloadAction<IExpense>) => {
-			if (typeof action.payload.amount !== "number") {
-				const newExpense = {
-					date: action.payload.date,
-					expenseName: action.payload.expenseName,
-					amount: parseFloat(action.payload.amount),
-				};
-
-				state.expenseHistory.push(newExpense);
-			}
+		addExpenseHistory: (state, action: PayloadAction<IExpenseHistory>) => {
+			state.expenseHistory.push(action.payload);
 		},
 		calculateBalance: (state) => {
 			state.balance = state.expenseHistory.reduce(
@@ -111,10 +126,24 @@ const expenseSlice = createSlice({
 	extraReducers: (builder) => {
 		builder.addCase(fetchExpenses.fulfilled, (state, action) => {
 			state.expenseHistory = action.payload;
+			recalculateInfo(state);
 		});
 
 		builder.addCase(saveExpense.fulfilled, (state, action) => {
-			state.expenseHistory.push(action.payload); // do nothing because we will fetch expenses again???
+			expenseSlice.caseReducers.addExpenseHistory(state, action);
+			recalculateInfo(state);
+		});
+
+		builder.addCase(deleteExpenseById.fulfilled, (state, action) => {
+			const id = action.meta.arg;
+
+			if (id) {
+				state.expenseHistory = state.expenseHistory.filter(
+					(ex) => ex.id !== id
+				);
+			}
+
+			recalculateInfo(state);
 		});
 	},
 });

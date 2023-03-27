@@ -15,7 +15,7 @@ const TransactionForm: React.FC = () => {
 	const dispatch = useAppDispatch();
 
 	const [expense, setExpense] = useState<IExpense>({
-		date: new Date().toDateString(),
+		date: new Date().toLocaleString(),
 		expenseName: "",
 		amount: 0,
 	});
@@ -36,17 +36,12 @@ const TransactionForm: React.FC = () => {
 			...expense,
 			date: Date.parse(expense.date),
 		};
-		console.log(expenseForDispatch);
 		dispatch(saveExpense(expenseForDispatch));
-		// dispatch(addExpenseHistory(expense));
-		dispatch(calculateBalance());
-		dispatch(calculateIncome());
-		dispatch(calculateExpense());
 	};
 
 	return (
-		<div className="mt-3">
-			<Form className="d-flex flex-column align-items-center">
+		<div className="mt-3 d-flex flex-column justify-content-center">
+			<Form>
 				<h3>Add new transaction</h3>
 				<Form.Group className="mb-3">
 					<Form.Control
@@ -67,12 +62,17 @@ const TransactionForm: React.FC = () => {
 						name="amount"
 					/>
 				</Form.Group>
-
-				<TransactionDatePicker onChange={onChange} />
-				<Button variant="primary" type="submit" onClick={onSubmit}>
-					Add
-				</Button>
 			</Form>
+
+			<TransactionDatePicker onChange={onChange} />
+
+			<Button
+				variant="primary"
+				className="mt-3"
+				type="submit"
+				onClick={onSubmit}>
+				Add
+			</Button>
 		</div>
 	);
 };
