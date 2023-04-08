@@ -2,18 +2,12 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import { ListGroup, Stack } from "react-bootstrap";
 import { Trash } from "react-bootstrap-icons";
-import { useAppDispatch, useAppSelector } from "../hooks/hooks";
-import { deleteExpenseById, IExpense } from "../stores/features/expenseSlice";
+import { useAppDispatch, useAppSelector } from "../../utils/hooks/hooks";
+import { deleteExpenseById, IExpense } from "../../store/expense/expenseSlice";
 
 const ExpenseHistory = () => {
 	const expenses = useAppSelector((state) => state.expense.expenseHistory);
 	const dispatch = useAppDispatch();
-	// const options = {
-	// 	weekday: "long",
-	// 	year: "numeric",
-	// 	month: "long",
-	// 	day: "numeric",
-	// };
 
 	return (
 		<div style={{ width: "100%" }}>

@@ -1,12 +1,11 @@
 import {
-	ActionCreatorWithPayload,
 	createAsyncThunk,
 	createSlice,
 	PayloadAction,
+	Slice,
 } from "@reduxjs/toolkit";
 import { WritableDraft } from "immer/dist/internal";
-import { useAppDispatch } from "../../hooks/hooks";
-import { RootState } from "../store";
+import { useSavedState } from "../../utils/hooks/useSavedState";
 
 interface ExpenseState {
 	balance: number;
@@ -40,7 +39,14 @@ export const fetchExpenses = createAsyncThunk(
 	"expense/fetchExpenses",
 	async (data, thunkAPI) => {
 		try {
+			const token = JSON.parse(localStorage.getItem("token") ?? "");
+			const headers = {
+				"Content-Type": "application/json",
+				"Authorization": `Bearer ${token}`,
+			};
+
 			const response = await fetch("http://localhost:8080/expense/fetchAll", {
+				headers: headers,
 				method: "GET",
 			});
 
@@ -56,13 +62,15 @@ export const saveExpense = createAsyncThunk(
 	"expense/saveExpense",
 	async (expense: IExpenseDispatch, thunkAPI) => {
 		try {
+			const token = JSON.parse(localStorage.getItem("token") ?? "");
+			const headers = {
+				"Content-Type": "application/json",
+				"Authorization": `Bearer ${token}`,
+			};
+
 			const response = await fetch("http://localhost:8080/expense/add", {
+				headers: headers,
 				method: "POST",
-
-				headers: {
-					"Content-Type": "application/json",
-				},
-
 				body: JSON.stringify({ ...expense }),
 			});
 
@@ -78,12 +86,15 @@ export const deleteExpenseById = createAsyncThunk(
 	"expense/deleteExpenseById",
 	async (id: string, thunkAPI) => {
 		try {
-			const response = await fetch(`http://localhost:8080/expense/${id}`, {
-				method: "DELETE",
+			const token = JSON.parse(localStorage.getItem("token") ?? "");
+			const headers = {
+				"Content-Type": "application/json",
+				"Authorization": `Bearer ${token}`,
+			};
 
-				headers: {
-					"Content-Type": "application/json",
-				},
+			const response = await fetch(`http://localhost:8080/expense/${id}`, {
+				headers: headers,
+				method: "DELETE",
 			});
 		} catch (error: any) {
 			thunkAPI.rejectWithValue(error.message);

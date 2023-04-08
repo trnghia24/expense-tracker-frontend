@@ -1,5 +1,5 @@
 import React from "react";
-import { useAppSelector } from "../hooks/hooks";
+import { useAppSelector } from "../../utils/hooks/hooks";
 
 const Balance = () => {
 	const balance = useAppSelector((state) => state.expense.balance);

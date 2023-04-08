@@ -1,6 +1,6 @@
 import React from "react";
 import { ListGroup, Stack } from "react-bootstrap";
-import { useAppSelector } from "../hooks/hooks";
+import { useAppSelector } from "../../utils/hooks/hooks";
 import MoneyDisplay from "./MoneyDisplay";
 
 const IncomeAndExpenseDisplay: React.FC = () => {

@@ -1,37 +1,43 @@
+import { Login } from "@mui/icons-material";
 import { useEffect, useState } from "react";
-import { Container } from "react-bootstrap";
-import Balance from "./components/Balance";
-import ExpenseHistory from "./components/ExpenseHistory";
-import IncomeAndExpenseDisplay from "./components/IncomeAndExpenseDisplay";
-import TransactionForm from "./components/TransactionForm/TransactionForm";
-import { useAppDispatch } from "./hooks/hooks";
-import {
-	calculateBalance,
-	calculateExpense,
-	calculateIncome,
-	fetchExpenses,
-} from "./stores/features/expenseSlice";
+import { Routes, Route } from "react-router-dom";
+import Dashboard from "./components/DashboardPage/Dashboard";
+import LoginPage from "./components/LoginPage/LoginPage";
+import { useAppDispatch } from "./utils/hooks/hooks";
+import { fetchExpenses } from "./store/expense/expenseSlice";
+import PrivateRoute from "./utils/PrivateRoute";
+import { useSavedState } from "./utils/hooks/useSavedState";
+import { setSuccessfulAuthentication } from "./store/auth/authSlice";
 
 function App() {
 	const dispatch = useAppDispatch();
+	const [token, setToken] = useSavedState("", "token");
+	const [firstName, setFirstName] = useSavedState("", "firstName");
+	const [lastName, setLastName] = useSavedState("", "lastName");
 
 	useEffect(() => {
-		dispatch(fetchExpenses());
+		token &&
+			firstName &&
+			lastName &&
+			dispatch(setSuccessfulAuthentication({ firstName, lastName, token }));
 	}, [dispatch]);
 
 	return (
-		<Container className={styles.container} style={{ maxWidth: "1000px" }}>
-			<Balance />
-			<IncomeAndExpenseDisplay />
-			<ExpenseHistory />
-			<TransactionForm />
-		</Container>
+		<div>
+			<div>NavBar</div>
+			<Routes>
+				<Route path="/" element={<LoginPage />} />
+				<Route
+					path="/dashboard"
+					element={
+						<PrivateRoute>
+							<Dashboard />
+						</PrivateRoute>
+					}
+				/>
+			</Routes>
+		</div>
 	);
 }
 
 export default App;
-
-const styles = {
-	container:
-		"d-flex flex-column align-items-center mt-5 card shadow rounded p-3",
-};

@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { IExpense } from "../../stores/features/expenseSlice";
+import { IExpense } from "../../../store/expense/expenseSlice";
 
 type Props = {
 	onChange: <K extends keyof IExpense>(key: K, value: IExpense[K]) => void;
