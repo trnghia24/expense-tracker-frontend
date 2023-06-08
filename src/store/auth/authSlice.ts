@@ -13,7 +13,7 @@ interface UserInfo {
 	token: string;
 }
 
-interface AuthState {
+export interface AuthState {
 	loading: boolean;
 	userInfo: UserInfo;
 	isLoggedIn: boolean;
@@ -72,7 +72,7 @@ export const authenticateUser = createAsyncThunk<
 			}
 		);
 		if (response.status == 200) return response.json();
-		return thunkAPI.rejectWithValue("Invalid login attempt");
+		return thunkAPI.rejectWithValue("Login error");
 	} catch (error: any) {
 		return thunkAPI.rejectWithValue(error.message);
 	}
@@ -107,7 +107,13 @@ const authSlice = createSlice({
 			}
 		);
 
+		builder.addCase(authenticateUser.pending, (state, action) => {
+			state.loading = true;
+		});
+
 		builder.addCase(authenticateUser.rejected, (state, action) => {
+			state.loading = false;
+			state.isLoggedIn = false;
 			state.error = action.payload;
 		});
 	},

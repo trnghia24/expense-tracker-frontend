@@ -1,13 +1,12 @@
-import { Login } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Dashboard from "./components/DashboardPage/Dashboard";
 import LoginPage from "./components/LoginPage/LoginPage";
 import { useAppDispatch } from "./utils/hooks/hooks";
-import { fetchExpenses } from "./store/expense/expenseSlice";
 import PrivateRoute from "./utils/PrivateRoute";
 import { useSavedState } from "./utils/hooks/useSavedState";
 import { setSuccessfulAuthentication } from "./store/auth/authSlice";
+import MyNavBar from "./components/MyNavBar";
 
 function App() {
 	const dispatch = useAppDispatch();
@@ -24,7 +23,7 @@ function App() {
 
 	return (
 		<div>
-			<div>NavBar</div>
+			<MyNavBar />
 			<Routes>
 				<Route path="/" element={<LoginPage />} />
 				<Route

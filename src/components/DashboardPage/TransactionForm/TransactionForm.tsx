@@ -1,14 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useAppDispatch } from "../../../utils/hooks/hooks";
-import {
-	addExpenseHistory,
-	calculateBalance,
-	calculateExpense,
-	calculateIncome,
-	IExpense,
-	saveExpense,
-} from "../../../store/expense/expenseSlice";
+import { IExpense, saveExpense } from "../../../store/expense/expenseSlice";
 import TransactionDatePicker from "./TransactionDatePicker";
 
 const TransactionForm: React.FC = () => {

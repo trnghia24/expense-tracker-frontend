@@ -1,0 +1,149 @@
+.main {
+	width: 100vw;
+	height: 100vh;
+}
+
+.login-box {
+	margin-top: 10em;
+	padding-left: 10%;
+	padding-right: 10%;
+	display: flex;
+	flex-direction: column;
+	height: 50%;
+}
+
+.login-text-input {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 8%;
+}
+
+.login-text-input input {
+	width: 100%;
+	height: 100%;
+	outline: 0;
+	background-color: transparent;
+	border: solid #3f5032;
+	border-radius: 15px;
+	border-color: #3f5032;
+	font-size: 12px;
+	text-align: left;
+	padding-left: 2.5%;
+	padding-right: 2.5%;
+	transform-origin: top left;
+	transition: all 0.3s ease-out;
+}
+
+.login-text-input label
+/* input[name="email"]:not(:focus):not([value=""]) + label,
+input[name="password"]:not(:focus):not([value=""]) + label  */ {
+	font-size: 12px;
+	padding: 0 2.5% 0 2.5%;
+	color: #3f5032;
+	pointer-events: none;
+	position: absolute;
+	top: 50%;
+	transform: translate(0, -50%) scale(1);
+	border: none;
+}
+
+input[name="email"]:valid + label,
+input[name="password"]:valid + label,
+.login-text-input:focus-within label {
+	top: 0;
+	background-color: #e1e5de;
+	border: solid #3f5032;
+	border-top: 0;
+	border-bottom: 0;
+	border-width: 1.5px;
+	margin: 0;
+	padding: 0 2px 0 2px;
+	transform: translate(15px, -50%) scale(0.75);
+}
+
+/* input[name="email"]:invalid + label,
+input[name="password"]:invalid + label {
+	top: 0;
+	background-color: #e1e5de;
+	border: solid red;
+	color: red;
+	border-top: 0;
+	border-bottom: 0;
+	border-width: 1.5px;
+	margin: 0;
+	padding: 0 2px 0 2px;
+	transform: translate(15px, -50%) scale(0.75);
+}
+
+input[name="email"]:invalid,
+input[name="password"]:invalid {
+	top: 0;
+	background-color: #e1e5de;
+	border: solid red;
+	border-width: 1.5px;
+	color: red;
+} */
+
+/* .login-text-input .form-control {
+	background-color: transparent;
+	border-radius: 15px;
+	border-color: #3f5032;
+	height: 10%;
+} */
+
+/* .login-text-input .form-control::placeholder {
+	color: #3f5032;
+	transition: top 0.3s ease, font-size 0.3 ease, color 0.3s ease;
+} */
+
+/* .login-text-input .form-control:focus {
+	background-color: transparent;
+	border-radius: 15px;
+	border-color: #3f5032;
+	box-shadow: none;
+	height: 10%;
+} */
+
+/* .login-text-input .form-control:focus::placeholder {
+	position: absolute;
+	top: -25%;
+	font-size: 10px;
+	color: black;
+	background-color: #e1e5de;
+	border-left: 1px solid #3f5032;
+	border-right: 1px solid #3f5032;
+} */
+
+/* .login-text-input .form-control:focus {
+	background-color: transparent;
+	border-top: 0;
+	border-right: 0;
+	border-left: 0;
+	border-radius: 0px;
+	border-bottom-color: #3f5032;
+	box-shadow: none;
+} */
+
+.signin-button {
+	background-color: #3f5032;
+	border: none;
+}
+
+.background-left {
+	float: left;
+	background-image: url("../../utils/images/login_background_image.png");
+	height: 100%;
+	width: 75%;
+	/* background-position: center; */
+	/* background-repeat: no-repeat; */
+	/* background-size: cover; */
+}
+
+.background-right {
+	background-color: #e1e5de;
+	float: right;
+	width: 25%;
+	height: 100%;
+}
