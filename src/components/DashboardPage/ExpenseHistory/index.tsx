@@ -2,8 +2,12 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import { ListGroup, Stack } from "react-bootstrap";
 import { Trash } from "react-bootstrap-icons";
-import { useAppDispatch, useAppSelector } from "../../utils/hooks/hooks";
-import { deleteExpenseById, IExpense } from "../../store/expense/expenseSlice";
+import { useAppDispatch, useAppSelector } from "../../../utils/hooks/hooks";
+import {
+	deleteExpenseById,
+	IExpense,
+} from "../../../store/expense/expenseSlice";
+import "./styles.css";
 
 const ExpenseHistory = () => {
 	const expenses = useAppSelector((state) => state.expense.expenseHistory);
@@ -17,14 +21,14 @@ const ExpenseHistory = () => {
 				<ListGroup variant="flush">
 					{expenses.map((ex) => (
 						<ListGroup.Item key={ex.id}>
-							<div className="d-flex align-items-center">
-								<span className="ms-auto">{ex.date}</span>
-								<span className="ms-auto">{ex.expenseName}</span>
+							<div className="container">
+								<span className="info-column">{ex.date}</span>
+								<span className="info-column">{ex.expenseName}</span>
 								<span
 									className={
 										ex.amount < 0
-											? "ms-auto text-danger"
-											: "ms-auto text-success"
+											? "info-column text-danger"
+											: "info-column text-success"
 									}>
 									{ex.amount < 0 ? `-$${Math.abs(ex.amount)}` : `$${ex.amount}`}
 								</span>

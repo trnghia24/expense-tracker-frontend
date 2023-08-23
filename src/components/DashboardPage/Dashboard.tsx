@@ -7,6 +7,7 @@ import ExpenseHistory from "./ExpenseHistory";
 import IncomeAndExpenseDisplay from "./IncomeAndExpenseDisplay";
 import TransactionForm from "./TransactionForm/TransactionForm";
 import { useSavedState } from "../../utils/hooks/useSavedState";
+import MyNavBar from "../MyNavBar";
 
 const Dashboard = () => {
 	const dispatch = useAppDispatch();
@@ -16,12 +17,15 @@ const Dashboard = () => {
 	}, [dispatch]);
 
 	return (
-		<Container className={styles.container} style={{ maxWidth: "1000px" }}>
-			<Balance />
-			<IncomeAndExpenseDisplay />
-			<ExpenseHistory />
-			<TransactionForm />
-		</Container>
+		<div>
+			<MyNavBar />
+			<Container className={styles.container} style={{ maxWidth: "1000px" }}>
+				<Balance />
+				<IncomeAndExpenseDisplay />
+				<ExpenseHistory />
+				<TransactionForm />
+			</Container>
+		</div>
 	);
 };
 

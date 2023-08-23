@@ -23,7 +23,6 @@ function App() {
 
 	return (
 		<div>
-			<MyNavBar />
 			<Routes>
 				<Route path="/" element={<LoginPage />} />
 				<Route

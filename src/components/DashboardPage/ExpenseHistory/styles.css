@@ -1,0 +1,10 @@
+.container {
+	display: flex;
+	align-items: center;
+}
+
+.info-column {
+	width: 33%;
+	align-items: center;
+	flex-grow: 1;
+}
